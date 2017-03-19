@@ -44,4 +44,26 @@ class Registro extends Conexion {
         }
     }
     
+    public function registrar() {
+        
+        $this->dblink->beginTransaction();
+        
+        try {
+            $sql = "INSERT INTO public.registrados_pendientes(dni, fecha_vencimiento, monto) VALUES (:p_dni, :p_fecha, :p_monto);";
+            
+            $sentencia = $this->dblink->prepare($sql);    
+            $sentencia->bindParam(":p_dni", $this->getDni());
+            $sentencia->bindParam(":p_fecha", $this->getFecha_vencimiento());
+            $sentencia->bindParam(":p_monto", $this->getMonto());
+            $sentencia->execute();
+            
+            $this->dblink->commit();
+            return true; 
+        } catch (Exception $exc) {
+            $this->dblink->rollBack(); 
+            throw $exc;
+        }
+        return false;
+    }
+    
 }
