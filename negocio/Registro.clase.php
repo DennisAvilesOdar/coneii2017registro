@@ -32,7 +32,7 @@ class Registro extends Conexion {
         $this->monto = $monto;
     }
     
-    public function cargarTabla() { //obtener toda la tabla
+    public function cargarDatos() { //lista o carga todos los documentos
         try {
             $sql = "select * from registrados_pendientes";
             $sentencia = $this->dblink->prepare($sql);
